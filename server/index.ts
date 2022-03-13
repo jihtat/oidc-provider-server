@@ -1,6 +1,9 @@
 import express, { Request, Response } from "express";
 import next from "next";
 
+import { config } from "dotenv";
+config();
+
 import oidcRouter from "./oidcProvider/router";
 
 const port = process.env.PORT || 5000;
@@ -18,6 +21,6 @@ app.prepare().then(() => {
   });
 
   server.listen(port, () => {
-    console.log(`> Ready on http://localhost:${port}`);
+    console.log(`> Ready on ${process.env.HOST}:${port}`);
   });
 });

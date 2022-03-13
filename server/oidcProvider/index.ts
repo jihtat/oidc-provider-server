@@ -10,17 +10,24 @@ const clients: ClientMetadata[] = [
   },
 ];
 
-export const oidcProvider = new Provider("http://localhost:5000/provider", {
-  clients: clients,
-  pkce: {
-    methods: ["S256"],
-    required: () => {
-      return false;
+console.log(
+  `${process.env.HOST}:${process.env.PORT}/${process.env.PROVIDER_URL}`
+);
+
+export const oidcProvider = new Provider(
+  `${process.env.HOST}:${process.env.PORT}/${process.env.PROVIDER_URL}`,
+  {
+    clients: clients,
+    pkce: {
+      methods: ["S256"],
+      required: () => {
+        return false;
+      },
     },
-  },
-  interactions: {
-    url(ctx: KoaContextWithOIDC, interaction: any) {
-      return `provider/interaction/${interaction.uid}`;
+    interactions: {
+      url(ctx: KoaContextWithOIDC, interaction: any) {
+        return `${process.env.PROVIDER_URL}/interaction/${interaction.uid}`;
+      },
     },
-  },
-});
+  }
+);
